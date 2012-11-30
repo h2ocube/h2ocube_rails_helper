@@ -1,0 +1,15 @@
+defaults: &defaults
+  ga: Google Analytics Profile Id
+  domain: h2ocube.com
+  title: <%= app_name %>
+  keywords: <%= app_name %>
+  description: <%= app_name %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
