@@ -50,6 +50,7 @@ def _title
     end
     title ||= []
   end
+  title = [ title ] if title.class.to_s != 'Array'
   title.push HelperSettings.title
   title.map{ |t| t.strip }
 end
