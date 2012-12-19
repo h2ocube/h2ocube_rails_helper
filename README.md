@@ -16,7 +16,7 @@ And then execute:
 
 ## Usage
 
-    render_html_class #=> controller_name action_name
+    render_html_class #=> controller_name action_name controller_name_action_name iPhone
     
     request.env['X_MOBILE_DEVICE'] #=> such as 'iPhone'
     

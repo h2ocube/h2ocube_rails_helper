@@ -22,6 +22,7 @@ def render_html_class
     cls.push params[:controller]
   end
   cls.push params[:action]
+  cls.push cls[0] + '_' + params[:action]
   if params.has_key?(:html_class)
     if params[:html_class].class != Array
       cls.push params[:html_class].to_s
