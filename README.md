@@ -23,10 +23,10 @@ And then execute:
     render_title
     render_keywords
     render_description
+
+    render_ga #=> use Garelic to show Google Analytics code at production
     
-    render_seo
-    
-    render_ga
+    render_seo #=> render_title << render_keywords << render_description << render_ga
 
 ## Contributing
 

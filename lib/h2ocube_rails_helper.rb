@@ -95,5 +95,5 @@ def render_seo
 end
 
 def render_ga
-  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(HelperSettings.ga)).html_safe if defined?(Garelic)
+  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(HelperSettings.ga)).html_safe if defined?(Garelic) && Rails.env.production?
 end
