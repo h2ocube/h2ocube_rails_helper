@@ -2,6 +2,7 @@
 
 require 'settingslogic'
 require 'rack/mobile-detect'
+require 'draper'
 
 module H2ocubeRailsHelper
   module Rails
