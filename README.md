@@ -28,6 +28,12 @@ And then execute:
     
     render_seo #=> render_title << render_keywords << render_description << render_ga
 
+## Include
+
+* settingslogic https://github.com/binarylogic/settingslogic
+* rack-mobile-detect https://github.com/talison/rack-mobile-detect
+* draper https://github.com/drapergem/draper
+
 ## Contributing
 
 1. Fork it
