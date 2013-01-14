@@ -91,8 +91,12 @@ def render_description
   "<meta name=\"description\" content=\"#{_description}\" />".html_safe
 end
 
+def render_canonical
+  defined?(@canonical) && !@canonical.blank? ? "<link rel=\"canonical\" href=\"#{@canonical}\" />".html_safe : ''
+end
+
 def render_seo
-  render_title << render_keywords << render_description << render_ga
+  render_title << render_canonical << render_keywords << render_description << render_ga << csrf_meta_tags
 end
 
 def render_ga

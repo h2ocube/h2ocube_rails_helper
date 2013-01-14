@@ -21,12 +21,13 @@ And then execute:
     request.env['X_MOBILE_DEVICE'] #=> such as 'iPhone'
     
     render_title
+    render_canonical
     render_keywords
     render_description
 
     render_ga #=> use Garelic to show Google Analytics code at production
     
-    render_seo #=> render_title << render_keywords << render_description << render_ga
+    render_seo #=> render_title << render_canonical << render_keywords << render_description << render_ga << csrf_meta_tags
 
 ## Include
 
