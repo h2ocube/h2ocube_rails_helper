@@ -57,7 +57,7 @@ def _title
   title.map{ |t| t.strip }
 end
 
-def render_title
+def render_title opts = {}
   "<title>#{_title.join(' - ')}</title>".html_safe
 end
 
@@ -72,7 +72,7 @@ def _keywords
   keywords.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
 end
 
-def render_keywords
+def render_keywords opts = {}
   "<meta name=\"keywords\" content=\"#{_keywords.join(',')}\" />".html_safe
 end
 
@@ -87,18 +87,18 @@ def _description
   description.strip
 end
 
-def render_description
+def render_description opts = {}
   "<meta name=\"description\" content=\"#{_description}\" />".html_safe
 end
 
-def render_canonical
+def render_canonical opts = {}
   defined?(@canonical) && !@canonical.blank? ? "<link rel=\"canonical\" href=\"#{@canonical}\" />".html_safe : ''
 end
 
-def render_seo
-  render_title << render_canonical << render_keywords << render_description << render_ga << csrf_meta_tags
+def render_seo opts = {}
+  render_title(opts) << render_canonical(opts) << render_keywords(opts) << render_description(opts) << render_ga(opts) << csrf_meta_tags(opts)
 end
 
-def render_ga
-  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(HelperSettings.ga)).html_safe if defined?(Garelic) && Rails.env.production?
+def render_ga opts = {}
+  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic) && Rails.env.production?
 end
