@@ -2,6 +2,8 @@
 
 Just an helper collection.
 
+[![Build Status](https://travis-ci.org/h2ocube/h2ocube_rails_helper.png)](http://travis-ci.org/h2ocube/h2ocube_rails_helper
+
 ## Installation
 
 Add this line to your application's Gemfile:
