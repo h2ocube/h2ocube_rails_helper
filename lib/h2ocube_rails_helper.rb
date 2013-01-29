@@ -42,19 +42,15 @@ def _title
     title = @title.class.to_s == 'Array' ? @title : [ @title.strip ]
   else
     if defined?(@item)
-      if @item.respond_to?(:seo_title) && !@item.seo_title.blank?
-        title = @item.seo_title
-      elsif @item.respond_to?(:title) && !@item.title.blank?
+      if @item.respond_to?(:title) && !@item.title.blank?
         title = @item.title
-      elsif @item.respond_to?(:name) && !@item.name.blank?
-        title = @item.name
       end
     end
     title ||= []
   end
   title = [ title ] if title.class.to_s != 'Array'
   title.push HelperSettings.title
-  title.map{ |t| t.strip }
+  title.compact.map{ |t| t = t.strip; t == '' ? nil : t }.compact
 end
 
 def render_title opts = {}
@@ -63,31 +59,33 @@ end
 
 def _keywords
   if defined? @keywords
-    keywords = (@keywords.class.to_s == 'Array' ? @keywords : @keywords.strip.split(/(,|，)/))
-  elsif defined?(@item) && @item.respond_to?(:seo_keywords) && !@item.seo_keywords.blank?
-    keywords = @item.seo_keywords.strip.split(/(,|，)/)
+    keywords = (@keywords.class.to_s == 'Array' ? @keywords : @keywords.to_s.strip.split(/(,|，)/))
+  elsif defined?(@item) && @item.respond_to?(:keywords) && !@item.keywords.blank?
+    keywords = @item.keywords.strip.split(/(,|，)/)
   else
     keywords = HelperSettings.keywords.strip.split(/(,|，)/)
   end
-  keywords.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
+  keywords.compact.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
 end
 
 def render_keywords opts = {}
+  return '' if _keywords.length == 0
   "<meta name=\"keywords\" content=\"#{_keywords.join(',')}\" />".html_safe
 end
 
 def _description
   if defined? @description
     description = @description
-  elsif defined?(@item) && @item.respond_to?(:seo_description) && !@item.seo_description.blank?
-    description = @item.seo_description
+  elsif defined?(@item) && @item.respond_to?(:description) && !@item.description.blank?
+    description = @item.description
   else
     description = HelperSettings.description
   end
-  description.strip
+  description.to_s.strip
 end
 
 def render_description opts = {}
+  return '' if _description == ''
   "<meta name=\"description\" content=\"#{_description}\" />".html_safe
 end
 
