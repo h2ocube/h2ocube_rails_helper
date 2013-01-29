@@ -94,9 +94,9 @@ def render_canonical opts = {}
 end
 
 def render_seo opts = {}
-  render_title(opts) << render_canonical(opts) << render_keywords(opts) << render_description(opts) << render_ga(opts) << csrf_meta_tags(opts)
+  render_title(opts) << render_canonical(opts) << render_keywords(opts) << render_description(opts) << render_ga(opts) << csrf_meta_tags
 end
 
 def render_ga opts = {}
-  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic) && Rails.env.production?
+  ("<script>_gaq=[['_setDomainName', '#{HelperSettings.domain}'],['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic)# && !Rails.env.development?
 end
