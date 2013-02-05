@@ -16,6 +16,15 @@ class RenderTitleClass < ActionView::TestCase
     @item = Item.new
     assert_equal render_title, '<title>item_title - title</title>'
   end
+
+  test '@_title' do
+    @_title = '@_title'
+    assert_equal render_title, '<title>@_title</title>'
+  end
+
+  test 'opts' do
+    assert_equal render_title(title: 'opts'), '<title>opts</title>'
+  end
 end
 
 class HelperSettings

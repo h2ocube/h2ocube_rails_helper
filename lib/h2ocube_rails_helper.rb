@@ -37,7 +37,8 @@ def render_html_class
   cls.compact.uniq.join ' '
 end
 
-def _title
+def _title opts = {}
+  return [@_title] if defined?(@_title)
   if defined?(@title)
     title = @title.class.to_s == 'Array' ? @title : [ @title.strip ]
   else
@@ -49,12 +50,16 @@ def _title
     title ||= []
   end
   title = [ title ] if title.class.to_s != 'Array'
-  title.push HelperSettings.title
+  if opts.has_key? :title
+    title.push opts[:title]
+  else
+    title.push HelperSettings.title
+  end
   title.compact.map{ |t| t = t.strip; t == '' ? nil : t }.compact
 end
 
 def render_title opts = {}
-  "<title>#{_title.join(' - ')}</title>".html_safe
+  "<title>#{_title(opts).join(' - ')}</title>".html_safe
 end
 
 def _keywords
