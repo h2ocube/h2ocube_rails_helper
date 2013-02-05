@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'test_helper'
 
 class RenderKeywordsClass < ActionView::TestCase
@@ -18,11 +20,11 @@ class RenderKeywordsClass < ActionView::TestCase
   
   test '@item' do
     @item = Item.new
-    assert_equal render_keywords, '<meta name="keywords" content="item_keywords" />'
+    assert_equal render_keywords, '<meta name="keywords" content="item,item_keywords" />'
   end
 
   test 'opts' do
-    assert_equal render_keywords(keywords: 'opts'), '<meta name="keywords" content="opts" />'
+    assert_equal render_keywords(keywords: 'opts,a,b,c'), '<meta name="keywords" content="opts,a,b,c" />'
   end
 end
 
@@ -34,6 +36,6 @@ end
 
 class Item
   def keywords
-    'item_keywords'
+    'item，item_keywords'
   end
 end

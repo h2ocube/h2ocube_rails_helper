@@ -68,9 +68,9 @@ def _keywords opts = {}
   elsif defined?(@item) && @item.respond_to?(:keywords) && !@item.keywords.blank?
     keywords = @item.keywords.strip.split(/(,|，)/)
   else
-    keywords = opts.has_key?(:keywords) ? opts[:keywords] : HelperSettings.keywords.strip.split(/(,|，)/)
+    keywords = opts.has_key?(:keywords) ? opts[:keywords] : HelperSettings.keywords
   end
-  [keywords].flatten.compact.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
+  [keywords].flatten.compact.map{ |k| k.strip.split(/(,|，)/) }.flatten.map{ |k| k.gsub(/(,|，)/, '').blank? ? nil : k }.compact.uniq
 end
 
 def render_keywords opts = {}
