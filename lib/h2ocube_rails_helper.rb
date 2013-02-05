@@ -62,36 +62,36 @@ def render_title opts = {}
   "<title>#{_title(opts).join(' - ')}</title>".html_safe
 end
 
-def _keywords
+def _keywords opts = {}
   if defined? @keywords
-    keywords = (@keywords.class.to_s == 'Array' ? @keywords : @keywords.to_s.strip.split(/(,|，)/))
+    keywords = @keywords
   elsif defined?(@item) && @item.respond_to?(:keywords) && !@item.keywords.blank?
     keywords = @item.keywords.strip.split(/(,|，)/)
   else
-    keywords = HelperSettings.keywords.strip.split(/(,|，)/)
+    keywords = opts.has_key?(:keywords) ? opts[:keywords] : HelperSettings.keywords.strip.split(/(,|，)/)
   end
-  keywords.compact.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
+  [keywords].flatten.compact.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
 end
 
 def render_keywords opts = {}
   return '' if _keywords.length == 0
-  "<meta name=\"keywords\" content=\"#{_keywords.join(',')}\" />".html_safe
+  "<meta name=\"keywords\" content=\"#{_keywords(opts).join(',')}\" />".html_safe
 end
 
-def _description
+def _description opts = {}
   if defined? @description
     description = @description
   elsif defined?(@item) && @item.respond_to?(:description) && !@item.description.blank?
     description = @item.description
   else
-    description = HelperSettings.description
+    description = opts.has_key?(:description) ? opts[:description] : HelperSettings.description
   end
   description.to_s.strip
 end
 
 def render_description opts = {}
   return '' if _description == ''
-  "<meta name=\"description\" content=\"#{_description}\" />".html_safe
+  "<meta name=\"description\" content=\"#{_description(opts)}\" />".html_safe
 end
 
 def render_canonical opts = {}

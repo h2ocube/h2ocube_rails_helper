@@ -20,6 +20,10 @@ class RenderKeywordsClass < ActionView::TestCase
     @item = Item.new
     assert_equal render_keywords, '<meta name="keywords" content="item_keywords" />'
   end
+
+  test 'opts' do
+    assert_equal render_keywords(keywords: 'opts'), '<meta name="keywords" content="opts" />'
+  end
 end
 
 class HelperSettings

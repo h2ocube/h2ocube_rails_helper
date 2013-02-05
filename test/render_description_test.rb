@@ -18,6 +18,10 @@ class RenderDescriptionClass < ActionView::TestCase
     @item = Item.new
     assert_equal render_description, '<meta name="description" content="item_description" />'
   end
+
+  test 'opts' do
+    assert_equal render_description(description: 'opts'), '<meta name="description" content="opts" />'
+  end
 end
 
 class HelperSettings
