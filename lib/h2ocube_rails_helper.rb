@@ -37,58 +37,61 @@ def render_html_class
   cls.compact.uniq.join ' '
 end
 
-def _title
+def _title opts = {}
+  return [@_title] if defined?(@_title)
   if defined?(@title)
     title = @title.class.to_s == 'Array' ? @title : [ @title.strip ]
   else
     if defined?(@item)
-      if @item.respond_to?(:seo_title) && !@item.seo_title.blank?
-        title = @item.seo_title
-      elsif @item.respond_to?(:title) && !@item.title.blank?
+      if @item.respond_to?(:title) && !@item.title.blank?
         title = @item.title
-      elsif @item.respond_to?(:name) && !@item.name.blank?
-        title = @item.name
       end
     end
     title ||= []
   end
   title = [ title ] if title.class.to_s != 'Array'
-  title.push HelperSettings.title
-  title.map{ |t| t.strip }
+  if opts.has_key? :title
+    title.push opts[:title]
+  else
+    title.push HelperSettings.title
+  end
+  title.compact.map{ |t| t = t.strip; t == '' ? nil : t }.compact
 end
 
 def render_title opts = {}
-  "<title>#{_title.join(' - ')}</title>".html_safe
+  "<title>#{_title(opts).join(' - ')}</title>".html_safe
 end
 
-def _keywords
+def _keywords opts = {}
   if defined? @keywords
-    keywords = (@keywords.class.to_s == 'Array' ? @keywords : @keywords.strip.split(/(,|，)/))
-  elsif defined?(@item) && @item.respond_to?(:seo_keywords) && !@item.seo_keywords.blank?
-    keywords = @item.seo_keywords.strip.split(/(,|，)/)
+    keywords = @keywords
+  elsif defined?(@item) && @item.respond_to?(:keywords) && !@item.keywords.blank?
+    keywords = @item.keywords.strip.split(/(,|，)/)
   else
-    keywords = HelperSettings.keywords.strip.split(/(,|，)/)
+    keywords = opts.has_key?(:keywords) ? opts[:keywords] : HelperSettings.keywords
   end
-  keywords.map{ |k| k = k.gsub(/(,|，)/, '').strip; k.blank? ? nil : k }.compact.uniq
+  [keywords].flatten.compact.map{ |k| k.strip.split(/(,|，)/) }.flatten.map{ |k| k.gsub(/(,|，)/, '').blank? ? nil : k }.compact.uniq
 end
 
 def render_keywords opts = {}
-  "<meta name=\"keywords\" content=\"#{_keywords.join(',')}\" />".html_safe
+  return '' if _keywords.length == 0
+  "<meta name=\"keywords\" content=\"#{_keywords(opts).join(',')}\" />".html_safe
 end
 
-def _description
+def _description opts = {}
   if defined? @description
     description = @description
-  elsif defined?(@item) && @item.respond_to?(:seo_description) && !@item.seo_description.blank?
-    description = @item.seo_description
+  elsif defined?(@item) && @item.respond_to?(:description) && !@item.description.blank?
+    description = @item.description
   else
-    description = HelperSettings.description
+    description = opts.has_key?(:description) ? opts[:description] : HelperSettings.description
   end
-  description.strip
+  description.to_s.strip
 end
 
 def render_description opts = {}
-  "<meta name=\"description\" content=\"#{_description}\" />".html_safe
+  return '' if _description == ''
+  "<meta name=\"description\" content=\"#{_description(opts)}\" />".html_safe
 end
 
 def render_canonical opts = {}
@@ -96,9 +99,9 @@ def render_canonical opts = {}
 end
 
 def render_seo opts = {}
-  render_title(opts) << render_canonical(opts) << render_keywords(opts) << render_description(opts) << render_ga(opts) << csrf_meta_tags(opts)
+  render_title(opts) << render_canonical(opts) << render_keywords(opts) << render_description(opts) << render_ga(opts) << csrf_meta_tags
 end
 
 def render_ga opts = {}
-  ("<script>_gaq=[['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic) && Rails.env.production?
+  ("<script>_gaq=[['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic) && !Rails.env.development?
 end
