@@ -18,5 +18,4 @@ Gem::Specification.new do |gem|
   
   gem.add_dependency 'settingslogic'
   gem.add_dependency 'rack-mobile-detect'
-  gem.add_dependency 'draper'
 end
