@@ -2,7 +2,6 @@
 
 require 'settingslogic'
 require 'rack/mobile-detect'
-require 'draper'
 
 module H2ocubeRailsHelper
   module Rails
@@ -103,5 +102,11 @@ def render_seo opts = {}
 end
 
 def render_ga opts = {}
-  ("<script>_gaq=[['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(opts[:ga] || HelperSettings.ga)).html_safe if defined?(Garelic) && !Rails.env.development?
+  return '' if Rails.env.development?
+  ga = opts[:ga] || HelperSettings.ga
+  if defined?(Garelic)
+    return ("<script>_gaq=[['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(ga)).html_safe
+  else
+    return "<script>var _gaq=[['_setAccount','#{ga}'],['_trackPageview'],['_trackPageLoadTime']];(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script>"
+  end
 end
