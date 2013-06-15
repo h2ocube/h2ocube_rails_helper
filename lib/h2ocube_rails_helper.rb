@@ -39,7 +39,7 @@ end
 def _title opts = {}
   return [@_title] if defined?(@_title)
   if defined?(@title)
-    title = @title.class.to_s == 'Array' ? @title : [ @title.strip ]
+    title = @title.class.to_s == 'Array' ? @title : [ @title.to_s.strip ]
   else
     if defined?(@item)
       if @item.respond_to?(:title) && !@item.title.blank?
@@ -69,7 +69,7 @@ def _keywords opts = {}
   else
     keywords = opts.has_key?(:keywords) ? opts[:keywords] : HelperSettings.keywords
   end
-  [keywords].flatten.compact.map{ |k| k.strip.split(/(,|，)/) }.flatten.map{ |k| k.gsub(/(,|，)/, '').blank? ? nil : k }.compact.uniq
+  [keywords].flatten.compact.map{ |k| k.to_s.strip.split(/(,|，)/) }.flatten.map{ |k| k.gsub(/(,|，)/, '').blank? ? nil : k }.compact.uniq
 end
 
 def render_keywords opts = {}
@@ -103,7 +103,8 @@ end
 
 def render_ga opts = {}
   return '' if Rails.env.development?
-  ga = opts[:ga] || HelperSettings.ga
+  ga = opts.has_key?(:ga) ? opts[:ga] : HelperSettings.ga
+  return '' if ga.nil?
   if defined?(Garelic)
     return ("<script>_gaq=[['_trackPageview'],['_trackPageLoadTime']];</script>" << Garelic.monitoring(ga)).html_safe
   else
