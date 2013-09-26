@@ -1,14 +1,11 @@
 # coding: utf-8
 
 require 'settingslogic'
-require 'rack/mobile-detect'
+require 'browser'
 
 module H2ocubeRailsHelper
   module Rails
 		class Rails::Engine < ::Rails::Engine
-		  initializer 'Rack::MobileDetect' do |app|
-        app.middleware.use Rack::MobileDetect
-      end
 		end
 	end
 end
@@ -21,8 +18,10 @@ def render_html_class
   else
     cls.push params[:controller]
   end
+
   cls.push params[:action]
   cls.push cls[0] + '_' + params[:action]
+
   if params.has_key?(:html_class)
     if params[:html_class].class != Array
       cls.push params[:html_class].to_s
@@ -30,9 +29,9 @@ def render_html_class
       params[:html_class].each { |c| cls.push c }
     end
   end
-  if request.env['X_MOBILE_DEVICE']
-    cls.push 'mobile', request.env['X_MOBILE_DEVICE']
-  end
+
+  cls.push Browser.new(accept_language: request.headers['Accept-Language'], ua: request.headers['User-Agent']).to_s
+
   cls.compact.uniq.join ' '
 end
 

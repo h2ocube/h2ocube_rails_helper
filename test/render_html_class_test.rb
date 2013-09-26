@@ -42,8 +42,9 @@ class RenderHtmlClass < ActionView::TestCase
 			controller: 'controller',
 			action: 'action'
 		}
-		self.request.env['X_MOBILE_DEVICE'] = 'iPad'
+		self.request.user_agent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/1A542a Safari/419.3'
 		cls = render_html_class.split ' '
+
 		assert cls.include?('controller')
 		assert cls.include?('action')
 		assert cls.include?('controller_action')

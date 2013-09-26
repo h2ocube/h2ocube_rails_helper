@@ -2,6 +2,7 @@
 
 Just an helper collection.
 
+[![Gem Version](https://badge.fury.io/rb/h2ocube_rails_production.png)](http://badge.fury.io/rb/h2ocube_rails_production)
 [![Build Status](https://travis-ci.org/h2ocube/h2ocube_rails_helper.png)](https://travis-ci.org/h2ocube/h2ocube_rails_helper)
 
 ## Installation
@@ -18,23 +19,21 @@ And then execute:
 
 ## Usage
 
-    render_html_class #=> controller_name action_name controller_name_action_name iPhone
-    
-    request.env['X_MOBILE_DEVICE'] #=> such as 'iPhone'
-    
+    render_html_class #=> controller_name action_name controller_name_action_name devise_meta
+
     render_title
     render_canonical
     render_keywords
     render_description
 
     render_ga #=> show Google Analytics code at production (if require Garelic, will show Garelic code)
-    
+
     render_seo #=> render_title << render_canonical << render_keywords << render_description << render_ga << csrf_meta_tags
 
 ## Include
 
 * settingslogic https://github.com/binarylogic/settingslogic
-* rack-mobile-detect https://github.com/talison/rack-mobile-detect
+* browser https://github.com/fnando/browser
 
 ## Contributing
 
