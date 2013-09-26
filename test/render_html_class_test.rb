@@ -49,7 +49,7 @@ class RenderHtmlClass < ActionView::TestCase
 		assert cls.include?('action')
 		assert cls.include?('controller_action')
 		assert cls.include?('mobile')
-		assert cls.include?('iPad')
+		assert cls.include?('iphone')
 	end
 
 	def params
