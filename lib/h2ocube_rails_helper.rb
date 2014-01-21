@@ -38,16 +38,14 @@ end
 def _title opts = {}
   return [@_title] if defined?(@_title)
   if defined?(@title)
-    title = @title.class.to_s == 'Array' ? @title : [ @title.to_s.strip ]
+    title = @title.is_a?(Array) ? @title : [ @title.to_s ]
   else
-    if defined?(@item)
-      if @item.respond_to?(:title) && !@item.title.blank?
-        title = @item.title
-      end
+    if defined?(resource)
+      title = [resource.title, resource.class.model_name.human] if resource.respond_to?(:title) && resource.class.respond_to?(:model_name)
     end
     title ||= []
   end
-  title = [ title ] if title.class.to_s != 'Array'
+
   if opts.has_key? :title
     title.push opts[:title]
   else

@@ -2,6 +2,9 @@ require 'test_helper'
 
 class RenderTitleClass < ActionView::TestCase
   test 'simple' do
+    self.class_eval do
+      undef_method :resource
+    end
     assert_equal render_title, '<title>title</title>'
   end
   
@@ -12,9 +15,12 @@ class RenderTitleClass < ActionView::TestCase
     assert_equal render_title, '<title>@title - title</title>'
   end
   
-  test '@item' do
-    @item = Item.new
-    assert_equal render_title, '<title>item_title - title</title>'
+  test 'resource' do
+    def resource
+      Resource.new
+    end
+
+    assert_equal render_title, '<title>Resource Name - Class Name - title</title>'
   end
 
   test '@_title' do
@@ -33,8 +39,18 @@ class HelperSettings
   end
 end
 
-class Item
+class ResourceModelName
+  def human
+    'Class Name'
+  end
+end
+
+class Resource
   def title
-    'item_title'
+    'Resource Name'
+  end
+
+  def self.model_name
+    ResourceModelName.new
   end
 end
