@@ -9,7 +9,6 @@ Just an helper collection.
 
 Add this line to your application's Gemfile:
 
-    gem 'garelic' # if you use render_ga
     gem 'h2ocube_rails_helper'
 
 And then execute:

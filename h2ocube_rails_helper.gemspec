@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'h2ocube_rails_helper'
-  gem.version       = '0.0.16'
+  gem.version       = '0.1.0'
   gem.authors       = ['Ben']
   gem.email         = ['ben@h2ocube.com']
   gem.description   = %q{Just an helper collection}
@@ -19,4 +19,12 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'settingslogic'
   gem.add_dependency 'browser'
+
+  gem.add_development_dependency 'tzinfo'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec-rails'
+  gem.add_development_dependency 'rr'
+  gem.add_development_dependency 'capybara'
+  gem.add_development_dependency 'rails', '< 4.0.0'
+  gem.add_development_dependency 'sqlite3'
 end
