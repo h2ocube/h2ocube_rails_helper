@@ -24,15 +24,14 @@ end
 
 describe 'render_ga' do
   it 'default' do
-    render_ga.include?('ga_code').should be_true
+    expect(render_ga).to include('ga_code')
   end
 
   it 'with option' do
-    render_ga(ga: '123').include?('123').should be_true
+    expect(render_ga(ga: '123')).to include('123')
   end
 
   it 'with nil' do
-    render_ga(ga: nil).should == ''
+    expect(render_ga(ga: nil)).to eq('')
   end
 end
-

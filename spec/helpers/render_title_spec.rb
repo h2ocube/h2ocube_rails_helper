@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include H2ocubeRailsHelper::ActionViewExtension
-
 class HelperSettings
   def self.title
     'title'
@@ -26,31 +24,31 @@ end
 
 describe 'render_title' do
   it 'simple' do
-    render_title.should == '<title>title</title>'
+    expect(render_title).to eq('<title>title</title>')
   end
-  
+
   it '@title' do
     @title = '@title'
-    render_title.should == '<title>@title - title</title>'
+    expect(render_title).to eq('<title>@title - title</title>')
     @title = ['@title', '   ', '', nil]
-    render_title.should == '<title>@title - title</title>'
+    expect(render_title).to eq('<title>@title - title</title>')
   end
-  
+
   it 'resource' do
     self.class_eval do
       def resource
         Resource.new
       end
     end
-    render_title.should == '<title>Resource Name - Class Name - title</title>'
+    expect(render_title).to eq('<title>Resource Name - Class Name - title</title>')
   end
 
   it '@_title' do
     @_title = '@_title'
-    render_title.should == '<title>@_title</title>'
+    expect(render_title).to eq('<title>@_title</title>')
   end
 
   it 'opts' do
-    render_title(title: 'opts').should == '<title>opts</title>'
+    expect(render_title(title: 'opts')).to eq('<title>opts</title>')
   end
 end

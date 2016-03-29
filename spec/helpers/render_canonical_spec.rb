@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe 'render_canonical' do
   it 'simple' do
-    render_canonical.should == ''
+    expect(render_canonical).to eq('')
   end
-  
+
   it '@canonical' do
     @canonical = '@canonical'
-    render_canonical.should == '<link rel="canonical" href="@canonical" />'
+    expect(render_canonical).to eq('<link rel="canonical" href="@canonical" />')
     ['   ', '', nil].each do |desc|
       @canonical = desc
-      render_canonical.should == ''
+      expect(render_canonical).to eq('')
     end
   end
 end

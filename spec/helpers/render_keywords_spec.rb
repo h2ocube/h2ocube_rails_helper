@@ -14,26 +14,26 @@ end
 
 describe 'render_keywords' do
   it 'simple' do
-  render_keywords.should == '<meta name="keywords" content="keywords" />'
+    expect(render_keywords).to eq('<meta name="keywords" content="keywords" />')
   end
-  
+
   it '@keywords' do
     @keywords = '@keywords'
-    render_keywords.should == '<meta name="keywords" content="@keywords" />'
+    expect(render_keywords).to eq('<meta name="keywords" content="@keywords" />')
     @keywords = ['@keywords', '   ', '', nil]
-    render_keywords.should == '<meta name="keywords" content="@keywords" />'
+    expect(render_keywords).to eq('<meta name="keywords" content="@keywords" />')
     ['   ', '', nil].each do |key|
       @keywords = key
-      render_keywords.should == ''
+      expect(render_keywords).to eq('')
     end
   end
-  
+
   it '@item' do
     @item = Item.new
-    render_keywords.should == '<meta name="keywords" content="item,item_keywords" />'
+    expect(render_keywords).to eq('<meta name="keywords" content="item,item_keywords" />')
   end
 
   it 'opts' do
-    render_keywords(keywords: 'opts,a,b,c').should == '<meta name="keywords" content="opts,a,b,c" />'
+    expect(render_keywords(keywords: 'opts,a,b,c')).to eq('<meta name="keywords" content="opts,a,b,c" />')
   end
 end
