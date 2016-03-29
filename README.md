@@ -18,6 +18,11 @@ And then execute:
 
 ## Usage
 
+    escape #=> CGI.escapeHTML
+    unescape #=> CGI.unescapeHTML
+
+    browser #=> new Browser object
+
     render_html_class #=> controller_name action_name controller_name_action_name devise_meta
 
     render_title

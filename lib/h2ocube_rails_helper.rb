@@ -14,14 +14,15 @@ module Browser
     def desktop?
       !ua.blank? && !device.mobile?
     end
-  end
 
-  class Generic < Base
-    alias _full_version full_version
-
-    def full_version
-      ua.blank? ? '0.0' : _full_version
+    def meta
+      Meta.constants.each_with_object(Set.new) do |meta_name, meta|
+        meta_class = Meta.const_get(meta_name)
+        meta.merge(meta_class.new(self).to_a)
+      end.to_a
     end
+
+    alias to_a meta
   end
 
   class Device
@@ -56,6 +57,18 @@ end
 module H2ocubeRailsHelper
   module ActionView
     module Helpers
+      def escape(text)
+        CGI.escapeHTML text
+      end
+
+      def unescape(text)
+        CGI.unescapeHTML text
+      end
+
+      def browser
+        @_browser ||= Browser.new request.env['HTTP_USER_AGENT'], accept_language: request.env['HTTP_ACCEPT_LANGUAGE']
+      end
+
       def render_html_class
         cls = []
         if params[:controller].include?('/')
@@ -76,7 +89,7 @@ module H2ocubeRailsHelper
           end
         end
 
-        cls.push Browser.new(request.env['HTTP_USER_AGENT']).to_s
+        cls.push browser.to_s
 
         cls.compact.uniq.join ' '
       end
