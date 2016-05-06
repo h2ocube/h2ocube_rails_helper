@@ -12,7 +12,7 @@ module Browser
     end
 
     def desktop?
-      !ua.blank? && !device.mobile?
+      !ua.blank? && !device.mobile? && !device.tablet?
     end
 
     def meta
