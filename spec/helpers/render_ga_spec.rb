@@ -1,28 +1,14 @@
 require 'spec_helper'
 
-class HelperSettings
-  def self.title
-    'title'
-  end
-
-  def self.keywords
-    'keywords'
-  end
-
-  def self.description
-    'description'
-  end
-
-  def self.ga
-    'ga_code'
-  end
-
-  def self.domain
-    'domain'
-  end
-end
-
 describe 'render_ga' do
+  before do
+    Rails.application.secrets[:title] = 'title'
+    Rails.application.secrets[:keywords] = 'keywords'
+    Rails.application.secrets[:description] = 'description'
+    Rails.application.secrets[:ga] = 'ga_code'
+    Rails.application.secrets[:domain] = 'domain'
+  end
+
   it 'default' do
     expect(render_ga).to include('ga_code')
   end

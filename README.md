@@ -30,13 +30,12 @@ And then execute:
     render_keywords
     render_description
 
-    render_ga #=> show Google Analytics code at production (if require Garelic, will show Garelic code)
+    render_ga #=> show Google Analytics code at production
 
     render_seo #=> render_title << render_canonical << render_keywords << render_description << render_ga << csrf_meta_tags
 
 ## Include
 
-* settingslogic https://github.com/binarylogic/settingslogic
 * browser https://github.com/fnando/browser
 
 ## Contributing

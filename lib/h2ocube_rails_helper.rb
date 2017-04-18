@@ -1,4 +1,3 @@
-require 'settingslogic'
 require 'browser'
 
 module Browser
@@ -110,7 +109,7 @@ module H2ocubeRailsHelper
         if opts.key? :title
           title.push opts[:title]
         else
-          title.push HelperSettings.title
+          title.push Rails.application.secrets[:title]
         end
         title.compact.map { |t| t = t.strip; t == '' ? nil : t }.compact
       end
@@ -129,7 +128,7 @@ module H2ocubeRailsHelper
         elsif defined?(@item) && @item.respond_to?(:keywords) && !@item.keywords.blank?
           keywords = @item.keywords.strip.split(/(,|，)/)
         else
-          keywords = opts.key?(:keywords) ? opts[:keywords] : HelperSettings.keywords
+          keywords = opts.key?(:keywords) ? opts[:keywords] : Rails.application.secrets[:keywords]
         end
         [keywords].flatten.compact.map{ |k| k.to_s.strip.split(/(,|，)/) }.flatten.map { |k| k.gsub(/(,|，)/, '').blank? ? nil : k }.compact.uniq
       end
@@ -149,7 +148,7 @@ module H2ocubeRailsHelper
         elsif defined?(@item) && @item.respond_to?(:description) && !@item.description.blank?
           description = @item.description
         else
-          description = opts.key?(:description) ? opts[:description] : HelperSettings.description
+          description = opts.key?(:description) ? opts[:description] : Rails.application.secrets[:description]
         end
         strip_tags description.to_s.strip
       end
@@ -169,8 +168,8 @@ module H2ocubeRailsHelper
 
       def render_ga(opts = {})
         return '' if Rails.env.development?
-        ga = opts.key?(:ga) ? opts[:ga] : HelperSettings.ga
-        domain = opts.key?(:domain) ? opts[:domain] : HelperSettings.domain
+        ga = opts.key?(:ga) ? opts[:ga] : Rails.application.secrets[:ga]
+        domain = opts.key?(:domain) ? opts[:domain] : Rails.application.secrets[:domain]
         return '' if ga.nil?
         "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '#{ga}', '#{domain}');ga('send', 'pageview');</script>".html_safe
       end

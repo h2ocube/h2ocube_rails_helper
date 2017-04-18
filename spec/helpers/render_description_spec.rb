@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-class HelperSettings
-  def self.description
-    'description'
-  end
-end
-
 class Item
   def description
     'item_description'
@@ -13,6 +7,10 @@ class Item
 end
 
 describe 'render_description' do
+  before do
+    Rails.application.secrets[:description] = 'description'
+  end
+
   it 'simple' do
     expect(render_description).to eq('<meta name="description" content="description" />')
   end

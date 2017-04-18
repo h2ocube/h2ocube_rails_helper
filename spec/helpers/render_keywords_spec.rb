@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-class HelperSettings
-  def self.keywords
-    'keywords'
-  end
-end
-
 class Item
   def keywords
     'item，item_keywords'
@@ -13,6 +7,10 @@ class Item
 end
 
 describe 'render_keywords' do
+  before do
+    Rails.application.secrets[:keywords] = 'keywords'
+  end
+
   it 'simple' do
     expect(render_keywords).to eq('<meta name="keywords" content="keywords" />')
   end

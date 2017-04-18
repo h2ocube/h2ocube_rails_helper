@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-class HelperSettings
-  def self.title
-    'title'
-  end
-end
-
 class ResourceModelName
   def human
     'Class Name'
@@ -23,6 +17,10 @@ class Resource
 end
 
 describe 'render_title' do
+  before do
+    Rails.application.secrets[:title] = 'title'
+  end
+
   it 'simple' do
     expect(render_title).to eq('<title>title</title>')
   end
