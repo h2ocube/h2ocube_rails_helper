@@ -14,9 +14,10 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
-    $ rails g h2ocube_rails_helper
 
 ## Usage
+
+    rails_secrets #=> Rails.application.secrets.deep_symbolize_keys
 
     escape #=> CGI.escapeHTML
     unescape #=> CGI.unescapeHTML
